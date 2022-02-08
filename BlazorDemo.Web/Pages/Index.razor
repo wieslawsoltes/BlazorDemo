@@ -1,17 +1,28 @@
 ﻿@page "/"
-@inject IJSRuntime JS
 @using BlazorDemo
 @using System.IO
 
 <!--
-<input type="file" id="file" accept=".txt,.json" style="position:absolute;top:-100px">
+<input id="file" multiple="" accept=".txt,.json" style="position:absolute;top:-100px" type="file">
 -->
-<InputFile OnChange="@LoadFiles" id="file" multiple accept=".txt,.json" style="position:absolute;top:-100px"/>
+
+<InputFile OnChange="@LoadFiles" 
+           id="file" 
+           multiple 
+           accept="@_filter" 
+           style="position:absolute;top:-100px" 
+           @ref=_inputFile />
 
 <AvaloniaView />
 
-@functions {
+@code {
+    [Inject] private IJSRuntime? _js { get; set; }
+
     private Action<MemoryStream>? _callback;
+
+    private InputFile? _inputFile;
+
+    private string _filter = ".txt,.json";
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -25,9 +36,12 @@
 
     public async Task ShowInputDialog(Action<MemoryStream> callback)
     {
-        Console.WriteLine("ShowInputDialog()");
-        _callback = callback;
-        await JS.InvokeVoidAsync("ShowInputDialog");
+        if (_js is { } && _inputFile is { })
+        {
+            Console.WriteLine("ShowInputDialog()");
+            _callback = callback;
+            await _js.InvokeVoidAsync("ShowInputDialog");
+        }
     }
 
     protected override void OnInitialized()
