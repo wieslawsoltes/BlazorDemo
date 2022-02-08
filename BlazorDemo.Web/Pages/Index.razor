@@ -14,7 +14,7 @@
 @code {
     [Inject] private IJSRuntime? _js { get; set; }
 
-    private Action<Stream, string>? _callback;
+    private InputDialogOptions? _options;
 
     private InputFile? _inputFile;
 
@@ -26,25 +26,21 @@
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
+        if (_options == null)
+        {
+            return;
+        }
         Console.WriteLine("LoadFiles()");
 
-        foreach (var file in e.GetMultipleFiles())
+        foreach (var file in e.GetMultipleFiles(_options.MaximumFileCount))
         {
             var stream = new MemoryStream();
-            await file.OpenReadStream().CopyToAsync(stream);
+            await file.OpenReadStream(_options.MaxAllowedSize).CopyToAsync(stream);
             stream.Position = 0;
-            _callback?.Invoke(stream, file.Name);
+            _options.Callback?.Invoke(stream, file.Name);
         }
 
-        /*
-        var stream = new MemoryStream();
-        var file = e.File;
-        await e.File.OpenReadStream().CopyToAsync(stream);
-        stream.Position = 0;
-        _callback?.Invoke(stream,  file.Name);
-        */
-
-        _callback = null;
+        _options = null;
     }
 
     private async Task ShowInputDialog(InputDialogOptions options)
@@ -52,7 +48,7 @@
         if (_js is { } && _inputFile is { })
         {
             Console.WriteLine("ShowInputDialog() Begin");
-            _callback = options.Callback;
+            _options = options;
 
             _filter = options.Filter;
             _multiple = options.AllowMultiple;

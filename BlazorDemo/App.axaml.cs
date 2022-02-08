@@ -18,6 +18,10 @@ namespace BlazorDemo
         public bool AllowMultiple { get; set; } = false;
 
         public bool OpenFolder { get; set; } = false;
+
+        public long MaxAllowedSize { get; set; } = 512000;
+
+        public int MaximumFileCount { get; set; } = 10;
     }
 
     public partial class App : Application

@@ -23,7 +23,9 @@ namespace BlazorDemo.Views
                     Callback = Callback,
                     Filter = ".txt,.json",
                     AllowMultiple = false,
-                    OpenFolder = false
+                    OpenFolder = false,
+                    MaxAllowedSize = long.MaxValue,
+                    MaximumFileCount = 1
                 };
                 await App.ShowInputDialog(dlg);
                 Console.WriteLine("buttonSingle.Click End");
@@ -41,7 +43,9 @@ namespace BlazorDemo.Views
                     Callback = Callback,
                     Filter = ".txt,.json",
                     AllowMultiple = true,
-                    OpenFolder = false
+                    OpenFolder = false,
+                    MaxAllowedSize = long.MaxValue,
+                    MaximumFileCount = 10
                 };
                 await App.ShowInputDialog(dlg);
                 Console.WriteLine("buttonMultiple.Click End");
@@ -59,7 +63,9 @@ namespace BlazorDemo.Views
                     Callback = Callback,
                     Filter = ".txt,.json",
                     AllowMultiple = true,
-                    OpenFolder = true
+                    OpenFolder = true,
+                    MaxAllowedSize = long.MaxValue,
+                    MaximumFileCount = 10
                 };
                 await App.ShowInputDialog(dlg);
                 Console.WriteLine("buttonFolder.Click End");
