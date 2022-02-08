@@ -12,11 +12,26 @@
   </Design.DataContext>
 
   <DockPanel>
-    <Button Name="button" 
-            Content="Open File" 
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Top" 
-            DockPanel.Dock="Left"/>
+    <StackPanel DockPanel.Dock="Left" Spacing="6" Margin="6">
+      <Button Name="buttonSingle" 
+              Content="Open Single File" 
+              HorizontalContentAlignment="Center"
+              HorizontalAlignment="Stretch" 
+              VerticalAlignment="Center" 
+              DockPanel.Dock="Left"/>
+      <Button Name="buttonMultiple" 
+              Content="Open Multiple Files" 
+              HorizontalContentAlignment="Center"
+              HorizontalAlignment="Stretch" 
+              VerticalAlignment="Center" 
+              DockPanel.Dock="Left"/>
+      <Button Name="buttonFolder" 
+              Content="Open Folder" 
+              HorizontalContentAlignment="Center"
+              HorizontalAlignment="Stretch" 
+              VerticalAlignment="Center" 
+              DockPanel.Dock="Left"/>
+    </StackPanel>
     <TextBox Name="text" Text="" />
   </DockPanel>
 

@@ -3,7 +3,7 @@
 
 <InputFile OnChange="@LoadFiles" 
            id="file"
-           multiple="@_allowMultiple"
+           multiple="@_multiple"
            webkitdirectory="@_openFolder"
            accept="@_filter" 
            style="position:absolute;top:-100px" 
@@ -18,11 +18,11 @@
 
     private InputFile? _inputFile;
 
-    private string _filter = ".txt,.json";
+    private string _filter { get; set; } = ".*";
 
-    private bool _allowMultiple = false;
+    private bool _multiple { get; set; } = false;
 
-    private bool _openFolder = false;
+    private bool _openFolder { get; set; } = false;
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -47,29 +47,18 @@
         _callback = null;
     }
 
-    public class InputDialogOptions
-    {
-        public Action<Stream, string>? Callback { get; set; }
-
-        public string Filter { get; set; } = ".*";
-
-        public bool AllowMultiple { get; set; } = false;
-
-        public bool OpenFolder { get; set; } = false;
-    }
-
-    public async Task ShowInputDialog(Action<Stream, string> callback)
+    private async Task ShowInputDialog(InputDialogOptions options)
     {
         if (_js is { } && _inputFile is { })
         {
             Console.WriteLine("ShowInputDialog() Begin");
-            _callback = callback;
+            _callback = options.Callback;
 
-            _filter = ".txt";
-            _allowMultiple = true;
-            _openFolder = false;
+            _filter = options.Filter;
+            _multiple = options.AllowMultiple;
+            _openFolder = options.OpenFolder;
 
-            await _js.InvokeVoidAsync("ShowInputDialog", "file");
+            await _js.InvokeVoidAsync("ShowInputDialog", "file", _filter, _multiple, _openFolder);
 
             //var stream = await _js.InvokeAsync<FileStream>("ShowOpenFilePicker");
             //_callback(stream, "test");

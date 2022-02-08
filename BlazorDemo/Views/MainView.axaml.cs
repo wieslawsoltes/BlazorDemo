@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -12,24 +11,63 @@ namespace BlazorDemo.Views
         {
             InitializeComponent();
 
-            var button = this.FindControl<Button>("button");
-            if (button is { })
+            buttonSingle.Click += async (_, _) =>
             {
-                button.Click += async (_, _) =>
+                if (App.ShowInputDialog is null)
                 {
-                    if (App.ShowInputDialog is { })
-                    {
-                        Console.WriteLine("button.Click Begin");
-                        await App.ShowInputDialog(Callback);
-                        Console.WriteLine("button.Click End");
-                    }
+                    return;
+                }
+                Console.WriteLine("buttonSingle.Click Begin");
+                var dlg = new InputDialogOptions()
+                {
+                    Callback = Callback,
+                    Filter = ".txt,.json",
+                    AllowMultiple = false,
+                    OpenFolder = false
                 };
-            }
+                await App.ShowInputDialog(dlg);
+                Console.WriteLine("buttonSingle.Click End");
+            };
+
+            buttonMultiple.Click += async (_, _) =>
+            {
+                if (App.ShowInputDialog is null)
+                {
+                    return;
+                }
+                Console.WriteLine("buttonMultiple.Click Begin");
+                var dlg = new InputDialogOptions()
+                {
+                    Callback = Callback,
+                    Filter = ".txt,.json",
+                    AllowMultiple = true,
+                    OpenFolder = false
+                };
+                await App.ShowInputDialog(dlg);
+                Console.WriteLine("buttonMultiple.Click End");
+            };
+
+            buttonFolder.Click += async (_, _) =>
+            {
+                if (App.ShowInputDialog is null)
+                {
+                    return;
+                }
+                Console.WriteLine("buttonFolder.Click Begin");
+                var dlg = new InputDialogOptions()
+                {
+                    Callback = Callback,
+                    Filter = ".txt,.json",
+                    AllowMultiple = true,
+                    OpenFolder = true
+                };
+                await App.ShowInputDialog(dlg);
+                Console.WriteLine("buttonFolder.Click End");
+            };
         }
 
         private void Callback(Stream stream, string name)
         {
-            var text = this.FindControl<TextBox>("text");
             if (text is { })
             {
                 Console.WriteLine($"Callback(): {name}");

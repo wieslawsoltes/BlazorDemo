@@ -9,9 +9,20 @@ using BlazorDemo.Views;
 
 namespace BlazorDemo
 {
+    public class InputDialogOptions
+    {
+        public Action<Stream, string>? Callback { get; set; }
+
+        public string Filter { get; set; } = ".*";
+
+        public bool AllowMultiple { get; set; } = false;
+
+        public bool OpenFolder { get; set; } = false;
+    }
+
     public partial class App : Application
     {
-        public static Func<Action<Stream, string>, Task>? ShowInputDialog { get; set;}
+        public static Func<InputDialogOptions, Task>? ShowInputDialog { get; set;}
  
         public override void Initialize()
         {
