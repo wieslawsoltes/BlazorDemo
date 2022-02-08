@@ -1,13 +1,8 @@
 ﻿@page "/"
-@using BlazorDemo
 @using System.IO
 
-<!--
-<input id="file" multiple="" accept=".txt,.json" style="position:absolute;top:-100px" type="file">
--->
-
 <InputFile OnChange="@LoadFiles" 
-           id="file" 
+           id="file"
            multiple="@_allowMultiple"
            webkitdirectory="@_openFolder"
            accept="@_filter" 
