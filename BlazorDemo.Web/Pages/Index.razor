@@ -4,12 +4,9 @@
 @using System.IO
 
 <!--
-<input type="file" 
-       id="file" 
-       accept=".json,.zip"
-       style="position:absolute;top:-100px">
+<input type="file" id="file" accept=".txt,.json" style="position:absolute;top:-100px">
 -->
-<InputFile OnChange="@LoadFiles" id="file" multiple accept=".txt,.json,.zip" style="position:absolute;top:-100px"/>
+<InputFile OnChange="@LoadFiles" id="file" multiple accept=".txt,.json" style="position:absolute;top:-100px"/>
 
 <AvaloniaView />
 
