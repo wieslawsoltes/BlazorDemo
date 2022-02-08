@@ -8,7 +8,8 @@
 
 <InputFile OnChange="@LoadFiles" 
            id="file" 
-           multiple 
+           multiple="@_allowMultiple"
+           webkitdirectory="@_openFolder"
            accept="@_filter" 
            style="position:absolute;top:-100px" 
            @ref=_inputFile />
@@ -18,29 +19,46 @@
 @code {
     [Inject] private IJSRuntime? _js { get; set; }
 
-    private Action<MemoryStream>? _callback;
+    private Action<MemoryStream, string>? _callback;
 
     private InputFile? _inputFile;
 
     private string _filter = ".txt,.json";
 
+    private bool _allowMultiple = false;
+
+    private bool _openFolder = false;
+
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         Console.WriteLine("LoadFiles()");
+
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var stream = new MemoryStream();
+            await file.OpenReadStream().CopyToAsync(stream);
+            stream.Position = 0;
+            _callback?.Invoke(stream, file.Name);
+        }
+/*
         var stream = new MemoryStream();
+        var file = e.File;
         await e.File.OpenReadStream().CopyToAsync(stream);
         stream.Position = 0;
-        _callback?.Invoke(stream);
+        _callback?.Invoke(stream,  file.Name);
+*/
+
         _callback = null;
     }
 
-    public async Task ShowInputDialog(Action<MemoryStream> callback)
+    public async Task ShowInputDialog(Action<MemoryStream, string> callback)
     {
         if (_js is { } && _inputFile is { })
         {
             Console.WriteLine("ShowInputDialog() Begin");
             _callback = callback;
             await _js.InvokeVoidAsync("ShowInputDialog", "file");
+            //await _js.InvokeVoidAsync("getFile");
             Console.WriteLine("ShowInputDialog() End");
         }
     }
