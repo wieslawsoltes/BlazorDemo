@@ -76,10 +76,5 @@ namespace BlazorDemo.Views
                 text.Text = str;
             }
         }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
     }
 }
