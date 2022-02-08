@@ -1,0 +1,26 @@
+﻿@page "/"
+@inject IJSRuntime JS
+@using BlazorDemo
+
+<div id="wrapper">
+    <input type="file" id="file" 
+           accept=".json,.zip"
+           style="position:absolute;top:-100px">
+    <!--<a id="h" href="javascript:document.querySelector('input#file').click()">Open File</a>-->
+</div>
+
+<AvaloniaView />
+
+@functions {
+
+    public void ShowInputDialog()
+    {
+        JS.InvokeAsync<bool>("ShowInputDialog");
+    }
+
+        protected override void OnInitialized()
+        {
+            BlazorDemo.App.ShowInputDialog = this.ShowInputDialog;
+            base.OnInitialized();
+        }
+}
