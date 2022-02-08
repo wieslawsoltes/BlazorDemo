@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -9,8 +11,8 @@ namespace BlazorDemo
 {
     public partial class App : Application
     {
-        public static Action? ShowInputDialog { get; set;}
-
+        public static Func<Action<MemoryStream>, Task>? ShowInputDialog { get; set;}
+ 
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

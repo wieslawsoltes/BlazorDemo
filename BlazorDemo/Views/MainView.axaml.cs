@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -13,10 +15,26 @@ namespace BlazorDemo.Views
             var button = this.FindControl<Button>("button");
             if (button is { })
             {
-                button.Click += (_, _) =>
+                button.Click += async (_, _) =>
                 {
-                    App.ShowInputDialog?.Invoke();
+                    if (App.ShowInputDialog is { })
+                    {
+                        await App.ShowInputDialog(Callback);
+                    }
                 };
+            }
+        }
+
+        private void Callback(MemoryStream stream)
+        {
+            var text = this.FindControl<TextBox>("text");
+            if (text is { })
+            {
+                Console.WriteLine("Callback()");
+                stream.Position = 0;
+                using var reader = new StreamReader(stream);
+                var str = reader.ReadToEnd();
+                text.Text = str;
             }
         }
 

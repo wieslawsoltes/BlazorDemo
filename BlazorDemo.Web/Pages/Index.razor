@@ -1,26 +1,42 @@
 ﻿@page "/"
 @inject IJSRuntime JS
 @using BlazorDemo
+@using System.IO
 
-<div id="wrapper">
-    <input type="file" id="file" 
-           accept=".json,.zip"
-           style="position:absolute;top:-100px">
-    <!--<a id="h" href="javascript:document.querySelector('input#file').click()">Open File</a>-->
-</div>
+<!--
+<input type="file" 
+       id="file" 
+       accept=".json,.zip"
+       style="position:absolute;top:-100px">
+-->
+<InputFile OnChange="@LoadFiles" id="file" multiple accept=".txt,.json,.zip" style="position:absolute;top:-100px"/>
 
 <AvaloniaView />
 
 @functions {
+    private Action<MemoryStream>? _callback;
 
-    public void ShowInputDialog()
+    private async Task LoadFiles(InputFileChangeEventArgs e)
     {
-        JS.InvokeAsync<bool>("ShowInputDialog");
+        Console.WriteLine("LoadFiles()");
+        var stream = new MemoryStream();
+        await e.File.OpenReadStream().CopyToAsync(stream);
+        stream.Position = 0;
+        _callback?.Invoke(stream);
+        _callback = null;
     }
 
-        protected override void OnInitialized()
-        {
-            BlazorDemo.App.ShowInputDialog = this.ShowInputDialog;
-            base.OnInitialized();
-        }
+    public async Task ShowInputDialog(Action<MemoryStream> callback)
+    {
+        Console.WriteLine("ShowInputDialog()");
+        _callback = callback;
+        await JS.InvokeVoidAsync("ShowInputDialog");
+    }
+
+    protected override void OnInitialized()
+    {
+        BlazorDemo.App.ShowInputDialog = this.ShowInputDialog;
+
+        base.OnInitialized();
+    }
 }

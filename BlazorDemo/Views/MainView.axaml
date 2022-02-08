@@ -11,5 +11,13 @@
     <viewModels:MainViewModel />
   </Design.DataContext>
 
-  <Button Name="button" Content="Open File" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <DockPanel>
+    <Button Name="button" 
+            Content="Open File" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Top" 
+            DockPanel.Dock="Left"/>
+    <TextBox Name="text" Text="" />
+  </DockPanel>
+
 </UserControl>

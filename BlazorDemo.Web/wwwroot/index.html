@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Avalonia Sample</title>
+    <title>Blazor InputFile Demo</title>
     <base href="/" />
     <link href="css/app.css" rel="stylesheet" />
 </head>
@@ -29,11 +29,8 @@
     <script src="_framework/blazor.webassembly.js"></script>
 
     <script>
-        function ShowInputDialog()
-        {
-            // alert("Image is loaded");
-            document.querySelector('input#file').click();
-            //document.querySelector('button#b').click();
+        async function ShowInputDialog() {
+            await document.querySelector('input#file').click();
         }
     </script>
 
