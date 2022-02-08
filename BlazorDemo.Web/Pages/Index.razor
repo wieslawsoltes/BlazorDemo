@@ -38,9 +38,10 @@
     {
         if (_js is { } && _inputFile is { })
         {
-            Console.WriteLine("ShowInputDialog()");
+            Console.WriteLine("ShowInputDialog() Begin");
             _callback = callback;
-            await _js.InvokeVoidAsync("ShowInputDialog");
+            await _js.InvokeVoidAsync("ShowInputDialog", "file");
+            Console.WriteLine("ShowInputDialog() End");
         }
     }
 

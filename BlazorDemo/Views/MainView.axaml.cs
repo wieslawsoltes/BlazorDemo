@@ -19,7 +19,9 @@ namespace BlazorDemo.Views
                 {
                     if (App.ShowInputDialog is { })
                     {
+                        Console.WriteLine("button.Click Begin");
                         await App.ShowInputDialog(Callback);
+                        Console.WriteLine("button.Click End");
                     }
                 };
             }
