@@ -27,13 +27,12 @@ namespace BlazorDemo.Views
             }
         }
 
-        private void Callback(MemoryStream stream, string name)
+        private void Callback(Stream stream, string name)
         {
             var text = this.FindControl<TextBox>("text");
             if (text is { })
             {
                 Console.WriteLine($"Callback(): {name}");
-                stream.Position = 0;
                 using var reader = new StreamReader(stream);
                 var str = reader.ReadToEnd();
                 text.Text = str;

@@ -19,7 +19,7 @@
 @code {
     [Inject] private IJSRuntime? _js { get; set; }
 
-    private Action<MemoryStream, string>? _callback;
+    private Action<Stream, string>? _callback;
 
     private InputFile? _inputFile;
 
@@ -40,25 +40,45 @@
             stream.Position = 0;
             _callback?.Invoke(stream, file.Name);
         }
-/*
+
+        /*
         var stream = new MemoryStream();
         var file = e.File;
         await e.File.OpenReadStream().CopyToAsync(stream);
         stream.Position = 0;
         _callback?.Invoke(stream,  file.Name);
-*/
+        */
 
         _callback = null;
     }
 
-    public async Task ShowInputDialog(Action<MemoryStream, string> callback)
+    public class InputDialogOptions
+    {
+        public Action<Stream, string>? Callback { get; set; }
+
+        public string Filter { get; set; } = ".*";
+
+        public bool AllowMultiple { get; set; } = false;
+
+        public bool OpenFolder { get; set; } = false;
+    }
+
+    public async Task ShowInputDialog(Action<Stream, string> callback)
     {
         if (_js is { } && _inputFile is { })
         {
             Console.WriteLine("ShowInputDialog() Begin");
             _callback = callback;
+
+            _filter = ".txt";
+            _allowMultiple = true;
+            _openFolder = false;
+
             await _js.InvokeVoidAsync("ShowInputDialog", "file");
-            //await _js.InvokeVoidAsync("getFile");
+
+            //var stream = await _js.InvokeAsync<FileStream>("ShowOpenFilePicker");
+            //_callback(stream, "test");
+
             Console.WriteLine("ShowInputDialog() End");
         }
     }

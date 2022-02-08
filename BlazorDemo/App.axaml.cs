@@ -11,7 +11,7 @@ namespace BlazorDemo
 {
     public partial class App : Application
     {
-        public static Func<Action<MemoryStream, string>, Task>? ShowInputDialog { get; set;}
+        public static Func<Action<Stream, string>, Task>? ShowInputDialog { get; set;}
  
         public override void Initialize()
         {

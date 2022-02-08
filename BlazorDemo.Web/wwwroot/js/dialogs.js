@@ -1,49 +1,35 @@
 
-// https://stackoverflow.com/questions/4628544/how-to-detect-when-cancel-is-clicked-on-file-input
-
-// https://codepen.io/matuzo/pen/KOdpmq?editors=1111
-// https://caniuse.com/?search=webkitdirectory
 
 async function ShowInputDialog(id) {
     await document.querySelector('input#' + id).click();
 }
 
-
 // https://web.dev/file-system-access/
-// https://www.thinktecture.com/en/pwa/making-of-paint-js-file-access/
-
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker
 
-const pickerOpts = {
+async function ShowOpenFilePicker() {
+
+  const opts = {
     types: [
       {
-        description: 'Supported files',
-        accept: {
-          'image/*': ['.png', '.gif', '.jpeg', '.jpg']
-        }
+        description: 'Text file',
+        accept: {'text/plain': ['.txt']},
       },
     ],
     excludeAcceptAllOption: true,
     multiple: false
   };
 
-// create a reference for our file handle
-let fileHandle;
+  const fileHandles = await window.showOpenFilePicker(opts);
+  const file = await fileHandles[0].getFile();
 
-async function getFile() {
-  // open file picker, destructure the one element returned array
-  [fileHandle] = await window.showOpenFilePicker(pickerOpts);
-
-  // run code with our fileHandle
-  
+  return file.stream();
 }
-
-
 
 // https://developer.mozilla.org/en-US/docs/Web/API/window/showSaveFilePicker
 
-function getNewFileHandle() {
+function ShowSaveFilePicker() {
     const opts = {
       types: [{
         description: 'Text file',
@@ -53,5 +39,9 @@ function getNewFileHandle() {
     return window.showSaveFilePicker(opts);
   }
 
+// https://developer.mozilla.org/en-US/docs/Web/API/window/showDirectoryPicker
 
-  // https://developer.mozilla.org/en-US/docs/Web/API/window/showDirectoryPicker
+async function ShowDirectoryPicker() {
+  const dirHandle = await window.showDirectoryPicker();
+  return dirHandle;
+}
