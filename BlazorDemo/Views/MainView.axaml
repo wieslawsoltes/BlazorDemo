@@ -32,7 +32,9 @@
               VerticalAlignment="Center" 
               DockPanel.Dock="Left"/>
     </StackPanel>
-    <TextBox Name="text" Text="" />
+    <TextBox Name="text" 
+             Text=""
+             Margin="6"/>
   </DockPanel>
 
 </UserControl>
