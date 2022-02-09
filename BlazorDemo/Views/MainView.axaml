@@ -38,6 +38,8 @@
       </ListBox>
     </DockPanel>
     <TextBox Text="{Binding SelectedFile.Contents, FallbackValue=''}" 
+             AcceptsReturn="True"
+             AcceptsTab="True"
              Margin="6"/>
   </DockPanel>
 </UserControl>
