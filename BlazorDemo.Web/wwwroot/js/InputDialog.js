@@ -59,12 +59,19 @@ function ShowSaveFilePicker() {
         accept: {'text/plain': ['.txt']},
       }],
     };
-    return window.showSaveFilePicker(opts);
+    const fileHandle = window.showSaveFilePicker(opts);
+    return fileHandle;
   }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/window/showDirectoryPicker
+
+
 
 async function ShowDirectoryPicker() {
   const dirHandle = await window.showDirectoryPicker();
   return dirHandle;
 }
+
+
+// const dirHandle = await window.showDirectoryPicker();
+// var entries = await dirHandle.entries();

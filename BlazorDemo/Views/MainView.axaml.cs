@@ -71,6 +71,39 @@ namespace BlazorDemo.Views
                 await App.InputDialogService.ShowInputDialog(dlg);
                 Console.WriteLine("buttonFolder.Click End");
             };
+
+            buttonOpenFilePicker.Click += async (_, _) =>
+            {
+                if (App.InputDialogService is null)
+                {
+                    return;
+                }
+                Console.WriteLine("buttonOpenFilePicker.Click Begin");
+                await App.InputDialogService.ShowOpenFilePicker();
+                Console.WriteLine("buttonOpenFilePicker.Click End");
+            };
+
+            buttonSaveFilePicker.Click += async (_, _) =>
+            {
+                if (App.InputDialogService is null)
+                {
+                    return;
+                }
+                Console.WriteLine("buttonSaveFilePicker.Click Begin");
+                await App.InputDialogService.ShowSaveFilePicker();
+                Console.WriteLine("buttonSaveFilePicker.Click End");
+            };
+
+            buttonDirectoryPicker.Click += async (_, _) =>
+            {
+                if (App.InputDialogService is null)
+                {
+                    return;
+                }
+                Console.WriteLine("buttonDirectoryPicker.Click Begin");
+                await App.InputDialogService.ShowDirectoryPicker();
+                Console.WriteLine("buttonDirectoryPicker.Click End");
+            };
         }
 
         private void Callback(Stream stream, string name)
