@@ -36,20 +36,42 @@
 
     public async Task ShowInputDialog(InputDialogOptions options)
     {
+
         if (_js is { } && _inputFile?.Element is { })
         {
             Console.WriteLine("ShowInputDialog() Begin");
+
             _options = options;
 
+            //*
             await _js.InvokeVoidAsync(
                 "ShowInputDialog", 
                 _inputFile?.Element, 
                 _options.Filter, 
                 _options.AllowMultiple, 
                 _options.OpenFolder);
+            //*/
 
-            //var stream = await _js.InvokeAsync<FileStream>("ShowOpenFilePicker");
-            //_callback(stream, "test");
+            /*
+            var fileHandle = await _js.InvokeAsync<IJSObjectReference>("ShowOpenFilePicker");
+            Console.WriteLine($"fileHandle={fileHandle}");
+
+            var file = await fileHandle.InvokeAsync<IJSObjectReference>("getFile");
+            Console.WriteLine($"file={file}");
+
+            var name = await _js.InvokeAsync<string>("GetPropertyValue", file, "name");
+            Console.WriteLine($"name={name}");
+
+            var stream = await file.InvokeAsync<IJSObjectReference>("stream");
+            Console.WriteLine($"stream={stream}");
+
+            var arrayBuffer = await file.InvokeAsync<IJSObjectReference>("arrayBuffer");
+            Console.WriteLine($"arrayBuffer={arrayBuffer}");
+
+            var text = await file.InvokeAsync<string>("text");
+            Console.WriteLine($"text=\n{text}");
+            //*/
+
 
             Console.WriteLine("ShowInputDialog() End");
         }

@@ -7,9 +7,15 @@ async function ShowInputDialog(inputElement, filter, multiple, openFolder) {
   await inputElement.click();
 }
 
+// https://wicg.github.io/file-system-access/
 // https://web.dev/file-system-access/
+// https://w3c.github.io/FileAPI/#dfn-file
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker
+
+function GetPropertyValue(obj, property) {
+  return obj[property];
+}
 
 async function ShowOpenFilePicker() {
 
@@ -25,10 +31,24 @@ async function ShowOpenFilePicker() {
   };
 
   const fileHandles = await window.showOpenFilePicker(opts);
-  const file = await fileHandles[0].getFile();
-
-  return file.stream();
+  const fileHandle = fileHandles[0];
+  return fileHandle;
+  // return fileHandle.Name;
+  // const file = await fileHandles[0].getFile();
+  // return file;
 }
+
+
+// USAGE:
+// var fileHandle = await ShowOpenFilePicker();
+// var file = await fileHandle.getFile();
+// var stream = await file.stream();
+// var reader = await stream.getReader();
+// var text = await file.text();
+// var arrayBuffer = await file.arrayBuffer();
+
+
+
 
 // https://developer.mozilla.org/en-US/docs/Web/API/window/showSaveFilePicker
 
