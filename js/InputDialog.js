@@ -1,11 +1,10 @@
 
 
-async function ShowInputDialog(id, filter, multiple, openFolder) {
-    var input = document.querySelector('input#' + id);
-    input.accept = filter;
-    input.multiple = multiple;
-    input.webkitdirectory = openFolder;
-    await input.click();
+async function ShowInputDialog(inputElement, filter, multiple, openFolder) {
+  inputElement.accept = filter;
+  inputElement.multiple = multiple;
+  inputElement.webkitdirectory = openFolder;
+  await inputElement.click();
 }
 
 // https://web.dev/file-system-access/
