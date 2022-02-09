@@ -1,9 +1,10 @@
 @using System.IO
+@implements IInputDialogService
 
 <InputFile OnChange="@LoadFiles" 
-           multiple="@_multiple"
-           webkitdirectory="@_openFolder"
-           accept="@_filter" 
+           multiple="false"
+           webkitdirectory="false"
+           accept=".*" 
            style="position:absolute;top:-100px" 
            @ref=_inputFile />
 
@@ -13,12 +14,6 @@
     private InputDialogOptions? _options;
 
     private InputFile? _inputFile;
-
-    private string _filter { get; set; } = ".*";
-
-    private bool _multiple { get; set; } = false;
-
-    private bool _openFolder { get; set; } = false;
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -39,30 +34,24 @@
         _options = null;
     }
 
-    private async Task ShowInputDialog(InputDialogOptions options)
+    public async Task ShowInputDialog(InputDialogOptions options)
     {
         if (_js is { } && _inputFile?.Element is { })
         {
             Console.WriteLine("ShowInputDialog() Begin");
             _options = options;
 
-            _filter = options.Filter;
-            _multiple = options.AllowMultiple;
-            _openFolder = options.OpenFolder;
-
-            await _js.InvokeVoidAsync("ShowInputDialog", _inputFile?.Element, _filter, _multiple, _openFolder);
+            await _js.InvokeVoidAsync(
+                "ShowInputDialog", 
+                _inputFile?.Element, 
+                _options.Filter, 
+                _options.AllowMultiple, 
+                _options.OpenFolder);
 
             //var stream = await _js.InvokeAsync<FileStream>("ShowOpenFilePicker");
             //_callback(stream, "test");
 
             Console.WriteLine("ShowInputDialog() End");
         }
-    }
-
-    protected override void OnInitialized()
-    {
-        BlazorDemo.App.ShowInputDialog = this.ShowInputDialog;
-
-        base.OnInitialized();
     }
 }

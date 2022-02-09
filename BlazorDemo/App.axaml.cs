@@ -1,32 +1,15 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using BlazorDemo.Dialogs;
 using BlazorDemo.ViewModels;
 using BlazorDemo.Views;
 
 namespace BlazorDemo
 {
-    public class InputDialogOptions
-    {
-        public Action<Stream, string>? Callback { get; set; }
-
-        public string Filter { get; set; } = ".*";
-
-        public bool AllowMultiple { get; set; } = false;
-
-        public bool OpenFolder { get; set; } = false;
-
-        public long MaxAllowedSize { get; set; } = 512000;
-
-        public int MaximumFileCount { get; set; } = 10;
-    }
-
     public partial class App : Application
     {
-        public static Func<InputDialogOptions, Task>? ShowInputDialog { get; set;}
+        public static IInputDialogService? InputDialogService { get; set;}
  
         public override void Initialize()
         {

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using BlazorDemo.Dialogs;
 
 namespace BlazorDemo.Views
 {
@@ -13,7 +13,7 @@ namespace BlazorDemo.Views
 
             buttonSingle.Click += async (_, _) =>
             {
-                if (App.ShowInputDialog is null)
+                if (App.InputDialogService is null)
                 {
                     return;
                 }
@@ -27,13 +27,13 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 1
                 };
-                await App.ShowInputDialog(dlg);
+                await App.InputDialogService.ShowInputDialog(dlg);
                 Console.WriteLine("buttonSingle.Click End");
             };
 
             buttonMultiple.Click += async (_, _) =>
             {
-                if (App.ShowInputDialog is null)
+                if (App.InputDialogService is null)
                 {
                     return;
                 }
@@ -47,13 +47,13 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.ShowInputDialog(dlg);
+                await App.InputDialogService.ShowInputDialog(dlg);
                 Console.WriteLine("buttonMultiple.Click End");
             };
 
             buttonFolder.Click += async (_, _) =>
             {
-                if (App.ShowInputDialog is null)
+                if (App.InputDialogService is null)
                 {
                     return;
                 }
@@ -67,7 +67,7 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.ShowInputDialog(dlg);
+                await App.InputDialogService.ShowInputDialog(dlg);
                 Console.WriteLine("buttonFolder.Click End");
             };
         }
