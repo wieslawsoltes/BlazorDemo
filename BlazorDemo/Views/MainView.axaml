@@ -10,40 +10,22 @@
   <Design.DataContext>
     <viewModels:MainViewModel />
   </Design.DataContext>
-
   <DockPanel>
     <DockPanel DockPanel.Dock="Left">
       <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="6,6,0,6">
-        <Button Name="buttonSingle" 
-                Content="Open Single File" 
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" />
-        <Button Name="buttonMultiple" 
-                Content="Open Multiple Files" 
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" />
-        <Button Name="buttonFolder" 
-                Content="Open Folder" 
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" />
-        <Button Name="buttonOpenFilePicker" 
-                Content="Open File Picker" 
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" />
-        <Button Name="buttonSaveFilePicker" 
-                Content="Save File Picker" 
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" />
-        <Button Name="buttonDirectoryPicker" 
-                Content="Directory File Picker" 
-                HorizontalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" />
+        <StackPanel.Styles>
+          <Style Selector="Button">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+          </Style>
+        </StackPanel.Styles>
+        <Button Name="buttonSingle" Content="Open Single File" />
+        <Button Name="buttonMultiple" Content="Open Multiple Files" />
+        <Button Name="buttonFolder" Content="Open Folder" />
+        <Button Name="buttonOpenFilePicker" Content="Open File Picker" />
+        <Button Name="buttonSaveFilePicker" Content="Save File Picker" />
+        <Button Name="buttonDirectoryPicker" Content="Directory File Picker" />
       </StackPanel>
       <ListBox Items="{Binding Files}" 
                SelectedItem="{Binding SelectedFile}"
@@ -55,10 +37,7 @@
         </ListBox.ItemTemplate>
       </ListBox>
     </DockPanel>
-
     <TextBox Text="{Binding SelectedFile.Contents, FallbackValue=''}" 
              Margin="6"/>
-
   </DockPanel>
-
 </UserControl>
