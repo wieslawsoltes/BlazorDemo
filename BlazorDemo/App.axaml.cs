@@ -9,7 +9,7 @@ namespace BlazorDemo
 {
     public partial class App : Application
     {
-        public static IInputDialogService? InputDialogService { get; set;}
+        public static IInputDialogService? InputDialogService { get; set; }
  
         public override void Initialize()
         {

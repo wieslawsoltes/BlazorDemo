@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Avalonia.Controls;
 using BlazorDemo.Dialogs;
+using BlazorDemo.ViewModels;
 
 namespace BlazorDemo.Views
 {
@@ -74,12 +75,14 @@ namespace BlazorDemo.Views
 
         private void Callback(Stream stream, string name)
         {
-            if (text is { })
+            if (DataContext is MainViewModel viewModel)
             {
                 Console.WriteLine($"Callback(): {name}");
                 using var reader = new StreamReader(stream);
-                var str = reader.ReadToEnd();
-                text.Text = str;
+                var contents = reader.ReadToEnd();
+                var file = new FileViewModel(name, contents);
+                viewModel.Files.Add(file);
+                viewModel.SelectedFile = file;
             }
         }
     }

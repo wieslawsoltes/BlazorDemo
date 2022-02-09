@@ -12,29 +12,41 @@
   </Design.DataContext>
 
   <DockPanel>
-    <StackPanel DockPanel.Dock="Left" Spacing="6" Margin="6">
-      <Button Name="buttonSingle" 
-              Content="Open Single File" 
-              HorizontalContentAlignment="Center"
-              HorizontalAlignment="Stretch" 
-              VerticalAlignment="Center" 
-              DockPanel.Dock="Left"/>
-      <Button Name="buttonMultiple" 
-              Content="Open Multiple Files" 
-              HorizontalContentAlignment="Center"
-              HorizontalAlignment="Stretch" 
-              VerticalAlignment="Center" 
-              DockPanel.Dock="Left"/>
-      <Button Name="buttonFolder" 
-              Content="Open Folder" 
-              HorizontalContentAlignment="Center"
-              HorizontalAlignment="Stretch" 
-              VerticalAlignment="Center" 
-              DockPanel.Dock="Left"/>
-    </StackPanel>
-    <TextBox Name="text" 
-             Text=""
+    <DockPanel DockPanel.Dock="Left">
+      <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="6,6,0,6">
+        <Button Name="buttonSingle" 
+                Content="Open Single File" 
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Center" 
+                DockPanel.Dock="Left"/>
+        <Button Name="buttonMultiple" 
+                Content="Open Multiple Files" 
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Center" 
+                DockPanel.Dock="Left"/>
+        <Button Name="buttonFolder" 
+                Content="Open Folder" 
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Center" 
+                DockPanel.Dock="Left"/>
+      </StackPanel>
+      <ListBox Items="{Binding Files}" 
+               SelectedItem="{Binding SelectedFile}"
+               Margin="6,0,0,6">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </DockPanel>
+
+    <TextBox Text="{Binding SelectedFile.Contents, FallbackValue=''}" 
              Margin="6"/>
+
   </DockPanel>
 
 </UserControl>
