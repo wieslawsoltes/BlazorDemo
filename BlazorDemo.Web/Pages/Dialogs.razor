@@ -75,4 +75,13 @@
 
         _saveFileDialogOptions = null;
     }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Avalonia.AvaloniaLocator.CurrentMutable.Bind<IDialogService>().ToConstant(this);
+        }
+        base.OnAfterRender(firstRender);
+    }
 }

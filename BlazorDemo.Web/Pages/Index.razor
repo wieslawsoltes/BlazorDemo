@@ -1,19 +1,5 @@
 ﻿@page "/"
 
-<Dialogs @ref=_dialogs />
+<Dialogs />
 
 <AvaloniaView />
-
-@code {
-
-    private Dialogs? _dialogs;
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender && _dialogs is { })
-        {
-            Avalonia.AvaloniaLocator.CurrentMutable.Bind<IDialogService>().ToConstant(_dialogs);
-        }
-        base.OnAfterRender(firstRender);
-    }
-}
