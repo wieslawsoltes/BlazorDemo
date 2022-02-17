@@ -14,12 +14,12 @@ namespace BlazorDemo.Views
 
             buttonSingle.Click += async (_, _) =>
             {
-                if (App.InputDialogService is null)
+                if (App.Dialogs is null)
                 {
                     return;
                 }
                 Console.WriteLine("buttonSingle.Click Begin");
-                var dlg = new InputDialogOptions()
+                var dlg = new DialogOptions()
                 {
                     Callback = Callback,
                     Filter = ".txt,.json",
@@ -28,18 +28,18 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 1
                 };
-                await App.InputDialogService.ShowInputDialog(dlg);
+                await App.Dialogs.ShowInputDialog(dlg);
                 Console.WriteLine("buttonSingle.Click End");
             };
 
             buttonMultiple.Click += async (_, _) =>
             {
-                if (App.InputDialogService is null)
+                if (App.Dialogs is null)
                 {
                     return;
                 }
                 Console.WriteLine("buttonMultiple.Click Begin");
-                var dlg = new InputDialogOptions()
+                var dlg = new DialogOptions()
                 {
                     Callback = Callback,
                     Filter = ".txt,.json",
@@ -48,18 +48,18 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.InputDialogService.ShowInputDialog(dlg);
+                await App.Dialogs.ShowInputDialog(dlg);
                 Console.WriteLine("buttonMultiple.Click End");
             };
 
             buttonFolder.Click += async (_, _) =>
             {
-                if (App.InputDialogService is null)
+                if (App.Dialogs is null)
                 {
                     return;
                 }
                 Console.WriteLine("buttonFolder.Click Begin");
-                var dlg = new InputDialogOptions()
+                var dlg = new DialogOptions()
                 {
                     Callback = Callback,
                     Filter = ".txt,.json",
@@ -68,40 +68,40 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.InputDialogService.ShowInputDialog(dlg);
+                await App.Dialogs.ShowInputDialog(dlg);
                 Console.WriteLine("buttonFolder.Click End");
             };
 
             buttonOpenFilePicker.Click += async (_, _) =>
             {
-                if (App.InputDialogService is null)
+                if (App.Dialogs is null)
                 {
                     return;
                 }
                 Console.WriteLine("buttonOpenFilePicker.Click Begin");
-                await App.InputDialogService.ShowOpenFilePicker();
+                await App.Dialogs.ShowOpenFilePicker();
                 Console.WriteLine("buttonOpenFilePicker.Click End");
             };
 
             buttonSaveFilePicker.Click += async (_, _) =>
             {
-                if (App.InputDialogService is null)
+                if (App.Dialogs is null)
                 {
                     return;
                 }
                 Console.WriteLine("buttonSaveFilePicker.Click Begin");
-                await App.InputDialogService.ShowSaveFilePicker();
+                await App.Dialogs.ShowSaveFilePicker();
                 Console.WriteLine("buttonSaveFilePicker.Click End");
             };
 
             buttonDirectoryPicker.Click += async (_, _) =>
             {
-                if (App.InputDialogService is null)
+                if (App.Dialogs is null)
                 {
                     return;
                 }
                 Console.WriteLine("buttonDirectoryPicker.Click Begin");
-                await App.InputDialogService.ShowDirectoryPicker();
+                await App.Dialogs.ShowDirectoryPicker();
                 Console.WriteLine("buttonDirectoryPicker.Click End");
             };
         }

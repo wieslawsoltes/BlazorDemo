@@ -2,9 +2,9 @@ using System.Threading.Tasks;
 
 namespace BlazorDemo.Dialogs
 {
-    public interface IInputDialogService
+    public interface IDialogService
     {
-        Task ShowInputDialog(InputDialogOptions options);
+        Task ShowInputDialog(DialogOptions options);
         Task ShowOpenFilePicker();
         Task ShowSaveFilePicker();
         Task ShowDirectoryPicker();

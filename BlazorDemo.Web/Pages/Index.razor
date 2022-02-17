@@ -1,19 +1,19 @@
 ﻿@page "/"
 
-<InputDialogView @ref=_inputDialogView />
+<Dialogs @ref=_dialogs />
 
 <AvaloniaView />
 
 @code {
 
-    private InputDialogView? _inputDialogView;
+    private Dialogs? _dialogs;
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            Console.WriteLine($"InputDialogService={_inputDialogView}");
-            BlazorDemo.App.InputDialogService = _inputDialogView;
+            Console.WriteLine($"InputDialogService={_dialogs}");
+            BlazorDemo.App.Dialogs = _dialogs;
         }
         base.OnAfterRender(firstRender);
     }

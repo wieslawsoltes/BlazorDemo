@@ -3,7 +3,7 @@ using System.IO;
 
 namespace BlazorDemo.Dialogs
 {
-    public class InputDialogOptions
+    public class DialogOptions
     {
         public Action<Stream, string>? Callback { get; set; }
 
