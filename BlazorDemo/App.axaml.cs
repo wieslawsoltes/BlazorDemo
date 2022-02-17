@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using BlazorDemo.Dialogs;
 using BlazorDemo.ViewModels;
 using BlazorDemo.Views;
 
@@ -9,8 +8,6 @@ namespace BlazorDemo
 {
     public partial class App : Application
     {
-        public static IDialogService? Dialogs { get; set; }
- 
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

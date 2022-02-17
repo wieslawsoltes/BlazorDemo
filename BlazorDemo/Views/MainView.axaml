@@ -24,9 +24,6 @@
         <Button Name="buttonMultiple" Content="Open Multiple Files" />
         <Button Name="buttonSave" Content="Save Single File" />
         <Button Name="buttonFolder" Content="Open Folder" />
-        <Button Name="buttonOpenFilePicker" Content="Open File Picker" />
-        <Button Name="buttonSaveFilePicker" Content="Save File Picker" />
-        <Button Name="buttonDirectoryPicker" Content="Directory File Picker" />
       </StackPanel>
       <ListBox Items="{Binding Files}" 
                SelectedItem="{Binding SelectedFile}"

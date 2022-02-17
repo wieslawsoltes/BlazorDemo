@@ -1,5 +1,5 @@
-using System;
 using System.IO;
+using Avalonia;
 using Avalonia.Controls;
 using BlazorDemo.Dialogs;
 using BlazorDemo.ViewModels;
@@ -14,11 +14,12 @@ namespace BlazorDemo.Views
 
             buttonSingle.Click += async (_, _) =>
             {
-                if (App.Dialogs is null)
+                var dialogs = Avalonia.AvaloniaLocator.Current.GetService<IDialogService?>();
+                if (dialogs is null)
                 {
                     return;
                 }
-                Console.WriteLine("buttonSingle.Click Begin");
+
                 var dlg = new OpenFileDialogOptions()
                 {
                     Callback = Callback,
@@ -28,17 +29,18 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 1
                 };
-                await App.Dialogs.ShowOpenFileDialog(dlg);
-                Console.WriteLine("buttonSingle.Click End");
+
+                await dialogs.ShowOpenFileDialog(dlg);
             };
 
             buttonMultiple.Click += async (_, _) =>
             {
-                if (App.Dialogs is null)
+                var dialogs = Avalonia.AvaloniaLocator.Current.GetService<IDialogService?>();
+                if (dialogs is null)
                 {
                     return;
                 }
-                Console.WriteLine("buttonMultiple.Click Begin");
+
                 var dlg = new OpenFileDialogOptions()
                 {
                     Callback = Callback,
@@ -48,37 +50,38 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.Dialogs.ShowOpenFileDialog(dlg);
-                Console.WriteLine("buttonMultiple.Click End");
+
+                await dialogs.ShowOpenFileDialog(dlg);
             };
 
             buttonSave.Click += async (_, _) =>
             {
-                if (App.Dialogs is null)
+                var dialogs = Avalonia.AvaloniaLocator.Current.GetService<IDialogService?>();
+                if (dialogs is null)
                 {
                     return;
                 }
+
                 if (DataContext is MainViewModel viewModel && viewModel.SelectedFile is { })
                 {
-                    
-                    Console.WriteLine("buttonSave.Click Begin");
                     var dlg = new SaveFileDialogOptions()
                     {
                         FileData = System.Text.Encoding.ASCII.GetBytes(viewModel.SelectedFile.Contents),
                         FileName = viewModel.SelectedFile.Name
                     };
-                    await App.Dialogs.ShowSaveFileDialog(dlg);
-                    Console.WriteLine("buttonSave.Click End");
+
+                    await dialogs.ShowSaveFileDialog(dlg);
                 }
             };
 
             buttonFolder.Click += async (_, _) =>
             {
-                if (App.Dialogs is null)
+                var dialogs = Avalonia.AvaloniaLocator.Current.GetService<IDialogService?>();
+                if (dialogs is null)
                 {
                     return;
                 }
-                Console.WriteLine("buttonFolder.Click Begin");
+
                 var dlg = new OpenFileDialogOptions()
                 {
                     Callback = Callback,
@@ -88,41 +91,8 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.Dialogs.ShowOpenFileDialog(dlg);
-                Console.WriteLine("buttonFolder.Click End");
-            };
 
-            buttonOpenFilePicker.Click += async (_, _) =>
-            {
-                if (App.Dialogs is null)
-                {
-                    return;
-                }
-                Console.WriteLine("buttonOpenFilePicker.Click Begin");
-                await App.Dialogs.ShowOpenFilePicker();
-                Console.WriteLine("buttonOpenFilePicker.Click End");
-            };
-
-            buttonSaveFilePicker.Click += async (_, _) =>
-            {
-                if (App.Dialogs is null)
-                {
-                    return;
-                }
-                Console.WriteLine("buttonSaveFilePicker.Click Begin");
-                await App.Dialogs.ShowSaveFilePicker();
-                Console.WriteLine("buttonSaveFilePicker.Click End");
-            };
-
-            buttonDirectoryPicker.Click += async (_, _) =>
-            {
-                if (App.Dialogs is null)
-                {
-                    return;
-                }
-                Console.WriteLine("buttonDirectoryPicker.Click Begin");
-                await App.Dialogs.ShowDirectoryPicker();
-                Console.WriteLine("buttonDirectoryPicker.Click End");
+                await dialogs.ShowOpenFileDialog(dlg);
             };
         }
 
@@ -130,7 +100,6 @@ namespace BlazorDemo.Views
         {
             if (DataContext is MainViewModel viewModel)
             {
-                Console.WriteLine($"Callback(): {name}");
                 using var reader = new StreamReader(stream);
                 var contents = reader.ReadToEnd();
                 var file = new FileViewModel(name, contents);

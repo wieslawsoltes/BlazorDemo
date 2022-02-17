@@ -6,8 +6,5 @@ namespace BlazorDemo.Dialogs
     {
         Task ShowOpenFileDialog(OpenFileDialogOptions options);
         Task ShowSaveFileDialog(SaveFileDialogOptions options);
-        Task ShowOpenFilePicker();
-        Task ShowSaveFilePicker();
-        Task ShowDirectoryPicker();
     }
 }

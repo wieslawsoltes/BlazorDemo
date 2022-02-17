@@ -10,10 +10,9 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender && _dialogs is { })
         {
-            Console.WriteLine($"InputDialogService={_dialogs}");
-            BlazorDemo.App.Dialogs = _dialogs;
+            Avalonia.AvaloniaLocator.CurrentMutable.Bind<IDialogService>().ToConstant(_dialogs);
         }
         base.OnAfterRender(firstRender);
     }

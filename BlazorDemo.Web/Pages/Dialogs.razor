@@ -1,7 +1,7 @@
 @using System.IO
 @implements IDialogService
 
-<InputFile OnChange="@LoadFiles" 
+<InputFile OnChange="@OnChange" 
            multiple="false"
            webkitdirectory="false"
            accept=".*" 
@@ -10,20 +10,16 @@
 
 @code {
     [Inject] private IJSRuntime? _js { get; set; }
-
     private OpenFileDialogOptions? _openFileDialogOptions;
-
     private SaveFileDialogOptions? _saveFileDialogOptions;
-
     private InputFile? _inputFile;
 
-    private async Task LoadFiles(InputFileChangeEventArgs e)
+    private async Task OnChange(InputFileChangeEventArgs e)
     {
         if (_openFileDialogOptions == null)
         {
             return;
         }
-        Console.WriteLine("LoadFiles()");
 
         foreach (var file in e.GetMultipleFiles(_openFileDialogOptions.MaximumFileCount))
         {
@@ -38,8 +34,6 @@
 
     public async Task ShowOpenFileDialog(OpenFileDialogOptions options)
     {
-        Console.WriteLine("ShowOpenFileDialog() Begin");
-
         if (_js is null || _inputFile?.Element is null)
         {
             return;
@@ -48,13 +42,11 @@
         _openFileDialogOptions = options;
 
         await _js.InvokeVoidAsync(
-            "ShowOpenFileDialog", 
+            "triggerInputElement", 
             _inputFile?.Element, 
             _openFileDialogOptions.Filter, 
             _openFileDialogOptions.AllowMultiple, 
             _openFileDialogOptions.OpenFolder);
-
-        Console.WriteLine("ShowOpenFileDialog() End");
     }
 
     private async Task DownloadFileFromStream(byte[]? fileData, string? fileName)
@@ -70,8 +62,6 @@
 
     public async Task ShowSaveFileDialog(SaveFileDialogOptions options)
     {
-        Console.WriteLine("ShowSaveFileDialog() Begin");
-
         if (_js is null || _inputFile?.Element is null)
         {
             return;
@@ -84,82 +74,5 @@
             _saveFileDialogOptions.FileName);
 
         _saveFileDialogOptions = null;
-
-        Console.WriteLine("ShowSaveFileDialog() End");
-    }
-
-    public async Task ShowOpenFilePicker()
-    {
-        Console.WriteLine("ShowOpenFilePicker() Begin");
-
-        if (_js is null)
-        {
-            return;
-        }
-
-        var fileHandle = await _js.InvokeAsync<IJSObjectReference>("ShowOpenFilePicker");
-        Console.WriteLine($"fileHandle={fileHandle}");
-
-        var file = await fileHandle.InvokeAsync<IJSObjectReference>("getFile");
-        Console.WriteLine($"file={file}");
-
-        var name = await _js.InvokeAsync<string>("GetPropertyValue", file, "name");
-        Console.WriteLine($"name={name}");
-
-        var stream = await file.InvokeAsync<IJSObjectReference>("stream");
-        Console.WriteLine($"stream={stream}");
-
-        var arrayBuffer = await file.InvokeAsync<IJSObjectReference>("arrayBuffer");
-        Console.WriteLine($"arrayBuffer={arrayBuffer}");
-
-        var text = await file.InvokeAsync<string>("text");
-        Console.WriteLine($"text=\n{text}");
-
-        Console.WriteLine("ShowOpenFilePicker() End");
-    }
-
-    public async Task ShowSaveFilePicker()
-    {
-        Console.WriteLine("ShowSaveFilePicker() Begin");
-
-        if (_js is null)
-        {
-            return;
-        }
-
-        var fileHandle = await _js.InvokeAsync<IJSObjectReference>("ShowSaveFilePicker");
-        Console.WriteLine($"fileHandle={fileHandle}");
-
-        var file = await fileHandle.InvokeAsync<IJSObjectReference>("getFile");
-        Console.WriteLine($"file={file}");
-
-        var name = await _js.InvokeAsync<string>("GetPropertyValue", file, "name");
-        Console.WriteLine($"name={name}");
-
-        var stream = await file.InvokeAsync<IJSObjectReference>("stream");
-        Console.WriteLine($"stream={stream}");
-
-        var arrayBuffer = await file.InvokeAsync<IJSObjectReference>("arrayBuffer");
-        Console.WriteLine($"arrayBuffer={arrayBuffer}");
-
-        Console.WriteLine("ShowSaveFilePicker() End");
-    }
-
-    public async Task ShowDirectoryPicker()
-    {
-        Console.WriteLine("ShowSaveFilePicker() Begin");
-
-        if (_js is null)
-        {
-            return;
-        }
-
-        var dirHandle = await _js.InvokeAsync<IJSObjectReference>("ShowDirectoryPicker");
-        Console.WriteLine($"dirHandle={dirHandle}");
-
-        var name = await _js.InvokeAsync<string>("GetPropertyValue", dirHandle, "name");
-        Console.WriteLine($"name={name}");
-
-        Console.WriteLine("ShowSaveFilePicker() End");
     }
 }
