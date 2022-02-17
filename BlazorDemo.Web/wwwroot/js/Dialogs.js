@@ -43,6 +43,10 @@ function GetPropertyValue(obj, property) {
   return obj[property];
 }
 
+function SetPropertyValue(obj, property, value) {
+  return obj[property] = value;
+}
+
 async function ShowOpenFilePicker() {
 
   const opts = {
