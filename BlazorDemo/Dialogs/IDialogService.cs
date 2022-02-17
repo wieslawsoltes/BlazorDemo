@@ -4,7 +4,8 @@ namespace BlazorDemo.Dialogs
 {
     public interface IDialogService
     {
-        Task ShowInputDialog(DialogOptions options);
+        Task ShowOpenFileDialog(OpenFileDialogOptions options);
+        Task ShowSaveFileDialog(SaveFileDialogOptions options);
         Task ShowOpenFilePicker();
         Task ShowSaveFilePicker();
         Task ShowDirectoryPicker();

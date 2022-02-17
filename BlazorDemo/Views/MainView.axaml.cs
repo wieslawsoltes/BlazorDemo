@@ -19,7 +19,7 @@ namespace BlazorDemo.Views
                     return;
                 }
                 Console.WriteLine("buttonSingle.Click Begin");
-                var dlg = new DialogOptions()
+                var dlg = new OpenFileDialogOptions()
                 {
                     Callback = Callback,
                     Filter = ".txt,.json",
@@ -28,7 +28,7 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 1
                 };
-                await App.Dialogs.ShowInputDialog(dlg);
+                await App.Dialogs.ShowOpenFileDialog(dlg);
                 Console.WriteLine("buttonSingle.Click End");
             };
 
@@ -39,7 +39,7 @@ namespace BlazorDemo.Views
                     return;
                 }
                 Console.WriteLine("buttonMultiple.Click Begin");
-                var dlg = new DialogOptions()
+                var dlg = new OpenFileDialogOptions()
                 {
                     Callback = Callback,
                     Filter = ".txt,.json",
@@ -48,8 +48,28 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.Dialogs.ShowInputDialog(dlg);
+                await App.Dialogs.ShowOpenFileDialog(dlg);
                 Console.WriteLine("buttonMultiple.Click End");
+            };
+
+            buttonSave.Click += async (_, _) =>
+            {
+                if (App.Dialogs is null)
+                {
+                    return;
+                }
+                if (DataContext is MainViewModel viewModel && viewModel.SelectedFile is { })
+                {
+                    
+                    Console.WriteLine("buttonSave.Click Begin");
+                    var dlg = new SaveFileDialogOptions()
+                    {
+                        FileData = System.Text.Encoding.ASCII.GetBytes(viewModel.SelectedFile.Contents),
+                        FileName = viewModel.SelectedFile.Name
+                    };
+                    await App.Dialogs.ShowSaveFileDialog(dlg);
+                    Console.WriteLine("buttonSave.Click End");
+                }
             };
 
             buttonFolder.Click += async (_, _) =>
@@ -59,7 +79,7 @@ namespace BlazorDemo.Views
                     return;
                 }
                 Console.WriteLine("buttonFolder.Click Begin");
-                var dlg = new DialogOptions()
+                var dlg = new OpenFileDialogOptions()
                 {
                     Callback = Callback,
                     Filter = ".txt,.json",
@@ -68,7 +88,7 @@ namespace BlazorDemo.Views
                     MaxAllowedSize = long.MaxValue,
                     MaximumFileCount = 10
                 };
-                await App.Dialogs.ShowInputDialog(dlg);
+                await App.Dialogs.ShowOpenFileDialog(dlg);
                 Console.WriteLine("buttonFolder.Click End");
             };
 

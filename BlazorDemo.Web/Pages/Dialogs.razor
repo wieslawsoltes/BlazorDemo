@@ -11,48 +11,81 @@
 @code {
     [Inject] private IJSRuntime? _js { get; set; }
 
-    private DialogOptions? _options;
+    private OpenFileDialogOptions? _openFileDialogOptions;
+
+    private SaveFileDialogOptions? _saveFileDialogOptions;
 
     private InputFile? _inputFile;
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
-        if (_options == null)
+        if (_openFileDialogOptions == null)
         {
             return;
         }
         Console.WriteLine("LoadFiles()");
 
-        foreach (var file in e.GetMultipleFiles(_options.MaximumFileCount))
+        foreach (var file in e.GetMultipleFiles(_openFileDialogOptions.MaximumFileCount))
         {
             var stream = new MemoryStream();
-            await file.OpenReadStream(_options.MaxAllowedSize).CopyToAsync(stream);
+            await file.OpenReadStream(_openFileDialogOptions.MaxAllowedSize).CopyToAsync(stream);
             stream.Position = 0;
-            _options.Callback?.Invoke(stream, file.Name);
+            _openFileDialogOptions.Callback?.Invoke(stream, file.Name);
         }
 
-        _options = null;
+        _openFileDialogOptions = null;
     }
 
-    public async Task ShowInputDialog(DialogOptions options)
+    public async Task ShowOpenFileDialog(OpenFileDialogOptions options)
     {
-        Console.WriteLine("ShowInputDialog() Begin");
+        Console.WriteLine("ShowOpenFileDialog() Begin");
 
         if (_js is null || _inputFile?.Element is null)
         {
             return;
         }
 
-        _options = options;
+        _openFileDialogOptions = options;
 
         await _js.InvokeVoidAsync(
-            "ShowInputDialog", 
+            "ShowOpenFileDialog", 
             _inputFile?.Element, 
-            _options.Filter, 
-            _options.AllowMultiple, 
-            _options.OpenFolder);
+            _openFileDialogOptions.Filter, 
+            _openFileDialogOptions.AllowMultiple, 
+            _openFileDialogOptions.OpenFolder);
 
-        Console.WriteLine("ShowInputDialog() End");
+        Console.WriteLine("ShowOpenFileDialog() End");
+    }
+
+    private async Task DownloadFileFromStream(byte[]? fileData, string? fileName)
+    {
+        if (_js is null || fileData is null || fileName is null)
+        {
+            return;
+        }
+        var fileStream = new MemoryStream(fileData);
+        using var streamRef = new DotNetStreamReference(stream: fileStream, leaveOpen: false);
+        await _js.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    public async Task ShowSaveFileDialog(SaveFileDialogOptions options)
+    {
+        Console.WriteLine("ShowSaveFileDialog() Begin");
+
+        if (_js is null || _inputFile?.Element is null)
+        {
+            return;
+        }
+
+        _saveFileDialogOptions = options;
+
+        await DownloadFileFromStream(
+            _saveFileDialogOptions.FileData,
+            _saveFileDialogOptions.FileName);
+
+        _saveFileDialogOptions = null;
+
+        Console.WriteLine("ShowSaveFileDialog() End");
     }
 
     public async Task ShowOpenFilePicker()
